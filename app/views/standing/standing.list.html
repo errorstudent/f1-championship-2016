@@ -1,0 +1,47 @@
+<md-content layout-padding>
+	<md-card>
+		<ul class="list-inline breadcrumbs">
+			<li><ng-md-icon icon="home" size="20"></ng-md-icon> Home</li>
+		</ul>
+	</md-card>
+
+	<md-card>
+
+
+		<md-card-content>
+			<md-toolbar class="md-table-toolbar md-default">
+				<div class="md-toolbar-tools">
+					<div flex="80">
+						<span>Driver Standings</span>
+					</div>
+					<div flex-gt-sm="20" flex="80">
+						<md-input-container md-no-float>
+							<input ng-model="filter.search" placeholder="Search driver">
+						</md-input-container>
+					</div>
+				</div>
+			</md-toolbar>
+
+			<md-table-container>
+				<table md-table md-progress="loadingStanding">
+					<thead md-head md-order="query.order">
+						<tr md-row>
+							<th md-column><span>Name</span></th>
+							<th md-column hide-xs><span>Nationality</span></th>
+							<th md-column md-numeric md-order-by="position | num" md-asc><span>Position</span></th>
+							<th md-column md-numeric md-order-by="wins | num" hide-xs><span>Total Wins</span></th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row md-select="standing" ng-repeat="standing in standings.DriverStandings | filter: filter.search | orderBy: query.order">
+						<td md-cell><a ui-sref="standing.detail({driverId: standing.Driver.driverId})">{{standing.Driver.givenName}} {{standing.Driver.familyName}}</a></td>
+							<td md-cell hide-xs><flag country="{{ standing.Driver.nationality | lowercase }}"></flag> {{standing.Driver.nationality}}</td>
+							<td md-cell>{{standing.position | num}}</td>
+							<td md-cell hide-xs>{{standing.wins | num}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+		</md-card-content>
+	</md-card>
+</md-content>

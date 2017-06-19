@@ -1,0 +1,80 @@
+<md-content layout-padding>
+	<md-card ng-show="!loadingDriver">
+		<ul class="list-inline breadcrumbs">
+			<li><ng-md-icon icon="home" size="20"></ng-md-icon> <a href="/">Home</a></li>
+			<li>&raquo;</li>
+			<li>{{driver.givenName}} {{driver.familyName}}</li>
+		</ul>
+	</md-card>
+
+	<md-card layout-padding>
+		<md-progress-linear md-mode="indeterminate" ng-show="loadingDriver"></md-progress-linear>
+		<div ng-show="!loadingDriver">
+			<table class="table-driver">
+				<tbody>
+					<tr>
+						<td>Name</td>
+						<td>{{driver.givenName}} {{driver.familyName}}</td>
+					</tr>
+					<tr>
+						<td>Country</td>
+						<td><flag country="{{ driver.nationality | lowercase }}"></flag>  {{driver.nationality}}</td>
+					</tr>
+					<tr>
+						<td>Date of Birth</td>
+						<td>{{driver.dateOfBirth | date : format : timezone}}</td>
+					</tr>
+					<tr>
+						<td>Biography</td>
+						<td><a href="{{driver.url}}" target="_blank">{{driver.url}}</a></td>
+					</tr>
+					<tr>
+						<td>Team</td>
+						<td>
+							<ul class="constructors">
+								<li ng-repeat="constructor in constructors">{{constructor.name}}</li>
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</md-card>
+
+	<md-card layout-padding>
+		<md-toolbar class="md-table-toolbar md-default">
+			<div class="md-toolbar-tools">
+				<div flex="80">
+					<span>Races</span>
+				</div>
+				<div flex-gt-sm="20" flex="80">
+					<md-input-container md-no-float>
+						<input ng-model="filter.search" placeholder="Search race">
+					</md-input-container>
+				</div>
+			</div>
+		</md-toolbar>
+		<md-table-container>
+			<table md-table md-progress="promise" class="races">
+				<thead md-head md-order="query.order">
+					<tr md-row>
+						<th md-column md-order-by="round | num" md-desc><span>Round</span></th>
+						<th md-column md-order-by="raceName"><span>Grand Prix</span></th>
+						<th md-column md-order-by="Results[0].Constructor.name"><span>Team</span></th>
+						<th md-column md-numeric md-order-by="Results[0].grid | num"><span>Grid</span></th>
+						<th md-column md-order-by="Circuit.circuitName"><span>Race</span></th>
+					</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row md-select="race" ng-repeat="race in races | filter: filter.search | orderBy: query.order">
+						<td md-cell>{{race.round}}</td>
+						<td md-cell>{{race.raceName}}</td>
+						<td md-cell>{{race.Results[0].Constructor.name}}</td>
+						<td md-cell>{{race.Results[0].grid | num}}</td>
+						<td md-cell>{{race.Circuit.circuitName}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</md-table-container>
+	</md-card>
+</md-content>
