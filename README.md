@@ -20,3 +20,20 @@ gem install compass
 ## Build & development
 
 Run `grunt` for building and `grunt serve` for preview.
+
+
+## Running using Apache
+```
+<VirtualHost *:80>
+    ServerAdmin webmaster@day7.local
+    DocumentRoot "E:/Data/MTaufiq/Works/Ask-Fast/f1-2016/public"
+    ServerName f1-championship.local
+    ErrorLog "logs/f1-championship.local-error.log"
+    CustomLog "logs/f1-championship.local-access.log" common
+
+    <Directory "E:/Data/MTaufiq/Works/Ask-Fast/f1-2016/public">
+        AllowOverride All 
+        Require all granted    
+    </Directory>
+</VirtualHost>
+```
